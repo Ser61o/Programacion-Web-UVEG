@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de la persona Usuaria</title>
+
+    <style>
+        /* ===== Selector de ELEMENTO: body ===== */
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-size: 16px;
+            background-color: #dbeafe;
+            color: #1e293b;
+            margin: 0;
+            padding: 30px;
+        }
+
+        /* ===== Selector de ID: contenedor del formulario ===== */
+        #formulario {
+            width: 520px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ===== Selector de ELEMENTO: título ===== */
+        h1 {
+            font-family: 'Georgia', serif;
+            font-size: 24px;
+            color: #1e40af;
+            text-align: center;
+            background-color: #eff6ff;
+            padding: 12px;
+            border-bottom: 3px solid #3b82f6;
+            border-radius: 6px;
+            margin-top: 0;
+        }
+
+        /* ===== Selector de CLASE: grupo de cada campo ===== */
+        .campo {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f8fafc;
+            border-left: 4px solid #60a5fa;
+            border-radius: 5px;
+        }
+
+        /* ===== Selector de ELEMENTO: etiquetas ===== */
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 5px;
+        }
+
+        /* ===== Selector de ELEMENTO: inputs de texto, email y password ===== */
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #0f172a;
+            background-color: #ffffff;
+            border: 1px solid #94a3b8;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        /* ===== Selector de ELEMENTO: textarea ===== */
+        textarea {
+            width: 100%;
+            height: 90px;
+            padding: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #0f172a;
+            background-color: #ffffff;
+            border: 1px dashed #94a3b8;
+            border-radius: 6px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        /* ===== Selector de CLASE: bloque de intereses ===== */
+        .intereses {
+            background-color: #ecfdf5;
+            padding: 12px;
+            border: 1px solid #34d399;
+            border-radius: 6px;
+        }
+
+        .intereses label {
+            display: inline-block;
+            font-weight: normal;
+            color: #065f46;
+            margin-right: 15px;
+        }
+
+        /* ===== Selector de ELEMENTO: botón ===== */
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            font-size: 16px;
+            font-family: inherit;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #2563eb;
+            border: 2px solid #1e40af;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #1e40af;
+            color: #fef08a;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="formulario" action="#" method="post">
+
+        <h1>Registro de la persona Usuaria</h1>
+
+        <!-- Nombre -->
+        <div class="campo">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required>
+        </div>
+
+        <!-- Apellido -->
+        <div class="campo">
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" placeholder="Escribe tu apellido" required>
+        </div>
+
+        <!-- Correo -->
+        <div class="campo">
+            <label for="correo">Correo Electrónico:</label>
+            <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com" required>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="campo">
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" placeholder="Mínimo 8 caracteres" required>
+        </div>
+
+        <!-- Descripción -->
+        <div class="campo">
+            <label for="descripcion">Breve descripción sobre ti:</label>
+            <textarea id="descripcion" name="descripcion" placeholder="Cuéntanos un poco sobre ti..."></textarea>
+        </div>
+
+        <!-- Intereses -->
+        <div class="campo">
+            <label>Intereses:</label>
+            <div class="intereses">
+                <input type="checkbox" id="tecnologia" name="intereses" value="Tecnología">
+                <label for="tecnologia">Tecnología</label>
+
+                <input type="checkbox" id="arte" name="intereses" value="Arte">
+                <label for="arte">Arte</label>
+
+                <input type="checkbox" id="deporte" name="intereses" value="Deporte">
+                <label for="deporte">Deporte</label>
+            </div>
+        </div>
+
+        <!-- Botón -->
+        <button type="submit">Registrarse</button>
+
+    </form>
+
+</body>
+</html>
