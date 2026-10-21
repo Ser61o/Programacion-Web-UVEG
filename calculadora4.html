@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Simple</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-size: 16px;
+            background-color: #dbeafe;
+            color: #1e293b;
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        #calculadora {
+            width: 320px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            font-family: Georgia, serif;
+            font-size: 24px;
+            color: #1e40af;
+            text-align: center;
+            background-color: #eff6ff;
+            padding: 12px;
+            border-bottom: 3px solid #3b82f6;
+            border-radius: 6px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        #pantalla {
+            width: 100%;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-size: 28px;
+            text-align: right;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f8fafc;
+            color: #1e293b;
+            border: 1px solid #cbd5e1;
+            border-left: 4px solid #60a5fa;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .teclado {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-size: 18px;
+            padding: 15px 0;
+            background-color: #f8fafc;
+            color: #1e293b;
+            border: 1px solid #cbd5e1;
+            border-left: 4px solid #60a5fa;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #eff6ff;
+            border-color: #3b82f6;
+        }
+
+        button:active {
+            background-color: #dbeafe;
+        }
+
+        .operador {
+            color: #1e40af;
+            font-weight: bold;
+        }
+
+        .igual {
+            background-color: #3b82f6;
+            color: white;
+            border: 1px solid #3b82f6;
+            border-left: 4px solid #1e40af;
+        }
+
+        .igual:hover {
+            background-color: #2563eb;
+        }
+
+        .limpiar {
+            color: #b91c1c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="calculadora">
+        <h1>Calculadora</h1>
+
+
+        <input type="text" id="pantalla" readonly value="0">
+
+        <div class="teclado">
+            <button class="limpiar" onclick="limpiar()">C</button>
+            <button class="operador" onclick="borrar()">←</button>
+            <button class="operador" onclick="elegirOperador('/')">/</button>
+            <button class="operador" onclick="elegirOperador('*')">×</button>
+
+            <button onclick="agregar('7')">7</button>
+            <button onclick="agregar('8')">8</button>
+            <button onclick="agregar('9')">9</button>
+            <button class="operador" onclick="elegirOperador('-')">-</button>
+
+            <button onclick="agregar('4')">4</button>
+            <button onclick="agregar('5')">5</button>
+            <button onclick="agregar('6')">6</button>
+            <button class="operador" onclick="elegirOperador('+')">+</button>
+
+            <button onclick="agregar('1')">1</button>
+            <button onclick="agregar('2')">2</button>
+            <button onclick="agregar('3')">3</button>
+            <button class="igual" onclick="calcular()">=</button>
+
+            <button onclick="agregar('0')" style="grid-column: span 2;">0</button>
+            <button onclick="agregar('.')">.</button>
+        </div>
+    </div>
+
+    <script>
+        const pantalla = document.getElementById('pantalla');
+
+
+        let operando1 = null;      
+        let operador = null;       
+        let esperandoNuevo = false; 
+        let reiniciarPantalla = false; 
+
+
+        function agregar(valor) {
+            if (esperandoNuevo || reiniciarPantalla) {
+                pantalla.value = valor === '.' ? '0.' : valor;
+                esperandoNuevo = false;
+                reiniciarPantalla = false;
+                return;
+            }
+
+            if (valor === '.' && pantalla.value.includes('.')) {
+                return;
+            }
+
+            if (pantalla.value === '0' && valor !== '.') {
+                pantalla.value = valor;
+            } else {
+                pantalla.value += valor;
+            }
+        }
+
+
+        function limpiar() {
+            pantalla.value = '0';
+            operando1 = null;
+            operador = null;
+            esperandoNuevo = false;
+            reiniciarPantalla = false;
+        }
+
+
+        function borrar() {
+            if (pantalla.value === 'Error') {
+                limpiar();
+                return;
+            }
+            if (pantalla.value.length > 1) {
+                pantalla.value = pantalla.value.slice(0, -1);
+            } else {
+                pantalla.value = '0';
+            }
+        }
+
+
+
+        function elegirOperador(op) {
+            if (pantalla.value === 'Error') {
+                limpiar();
+                return;
+            }
+
+            const valorActual = parseFloat(pantalla.value);
+
+
+
+            if (operador !== null && !esperandoNuevo) {
+                const resultado = resolverOperacion(operando1, valorActual, operador);
+                if (resultado === null) {
+                    pantalla.value = 'Error';
+                    operando1 = null;
+                    operador = null;
+                    esperandoNuevo = false;
+                    reiniciarPantalla = false;
+                    return;
+                }
+                operando1 = resultado;
+                pantalla.value = String(resultado);
+            } else {
+                operando1 = valorActual;
+            }
+
+            operador = op;
+            esperandoNuevo = true;
+        }
+
+
+        function calcular() {
+            if (operador === null) {
+                return;
+            }
+
+            const valorActual = parseFloat(pantalla.value);
+            const resultado = resolverOperacion(operando1, valorActual, operador);
+
+            if (resultado === null) {
+                pantalla.value = 'Error';
+            } else {
+                pantalla.value = String(resultado);
+            }
+
+            operando1 = null;
+            operador = null;
+            esperandoNuevo = false;
+            reiniciarPantalla = true;
+        }
+
+
+        
+        function resolverOperacion(a, b, op) {
+            if (op === '+') {
+                return a + b;
+            } else if (op === '-') {
+                return a - b;
+            } else if (op === '*') {
+                return a * b;
+            } else if (op === '/') {
+                if (b === 0) {
+                    return null; 
+                }
+                return a / b;
+            } else {
+                return null;
+            }
+        }
+    </script>
+
+</body>
+</html>
